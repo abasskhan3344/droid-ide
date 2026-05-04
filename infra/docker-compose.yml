@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  frontend:
+    image: ghcr.io/droid-ide/frontend:latest
+    ports: ["5173:5173"]
+    depends_on: [backend]
+  backend:
+    image: ghcr.io/droid-ide/backend:latest
+    env_file: ../.env.example
+    ports: ["8000:8000"]
+    depends_on: [postgres, redis]
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: droidide
+      POSTGRES_USER: droidide
+      POSTGRES_PASSWORD: droidide
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  redis:
+    image: redis:7
+    command: redis-server --appendonly yes
+    volumes:
+      - redisdata:/data
+volumes:
+  pgdata:
+  redisdata:

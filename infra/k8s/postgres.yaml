@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: droid-ide
+spec:
+  serviceName: postgres
+  selector:
+    matchLabels: { app: postgres }
+  template:
+    metadata:
+      labels: { app: postgres }
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          env:
+            - name: POSTGRES_DB
+              value: droidide
+            - name: POSTGRES_USER
+              value: droidide
+            - name: POSTGRES_PASSWORD
+              value: droidide
+          ports:
+            - containerPort: 5432

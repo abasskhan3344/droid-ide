@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: emulator-pool
+  namespace: droid-ide
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: emulator-pool }
+  template:
+    metadata:
+      labels: { app: emulator-pool }
+    spec:
+      containers:
+        - name: emulator
+          image: ghcr.io/droid-ide/android-emulator:latest
+          resources:
+            requests:
+              cpu: "2"
+              memory: "4Gi"
+            limits:
+              cpu: "4"
+              memory: "8Gi"
